@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Big 12 Football Merge Game</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #111;
+    color: white;
+    text-align: center;
+}
+
+h1 { margin-top: 20px; }
+
+#scoreBar {
+    margin: 10px auto;
+    font-size: 20px;
+    color: #60a5fa;
+}
+
+#boardContainer {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 10px;
+    margin-top: 20px;
+    position: relative;
+}
+
+#board {
+    width: 360px;
+    height: 360px;
+    background: #222;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    padding: 10px;
+    border-radius: 12px;
+    position: relative;
+}
+
+.tile {
+    width: 80px;
+    height: 80px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: background 0.2s;
+}
+
+.tile img {
+    width: 80%;
+    height: 80%;
+    object-fit: contain;
+}
+
+#winMessage {
+    font-size: 32px;
+    color: gold;
+    margin-top: 25px;
+    display: none;
+}
+
+#restartBtn {
+    margin-top: 15px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 8px;
+    border: none;
+    background: #60a5fa;
+    color: #111;
+    transition: background 0.2s;
+}
+
+#restartBtn:hover { background: #3b82f6; }
+
+.mergeGif {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    pointer-events: none;
+    z-index: 100;
+}
+.leftGif { left: -1px; top: 50%; transform: translateY(-50%); }
+.rightGif { right: -1px; top: 50%; transform: translateY(-50%); }
+</style>
+</head>
+<body>
+
+<h1>Big 12 Football Merge Game</h1>
+<div id="scoreBar">Score: 0</div>
+<p>Use Arrow Keys to Slide & Merge Tiles</p>
+<div id="boardContainer">
+    <div id="board"></div>
+</div>
+<div id="winMessage">YOU ARE THE BIG 12 CHAMP!</div>
+<button id="restartBtn">Restart Game</button>
+
+<script>
+// NFL/Big 12 logos
+const TILE_IMAGES = [
+    "",
+    "https://ssl.gstatic.com/onebox/media/sports/logos/03vew3T-Spx2TZhkWhcYJg_48x48.png", 
+    "https://ssl.gstatic.com/onebox/media/sports/logos/mWyyTHspy3lnbkckaLgqMA_48x48.png",
+    "https://ssl.gstatic.com/onebox/media/sports/logos/1naK88zpI1DsPJRTznprbA_48x48.png",
+    "https://ssl.gstatic.com/onebox/media/sports/logos/YZMSAcwgmcFCKUczopgyvg_48x48.png",
+    "https://ssl.gstatic.com/onebox/media/sports/logos/lBrO047BK7K5zSjWHI1sgA_48x48.png",
+    "https://ssl.gstatic.com/onebox/media/sports/logos/r4S33NSCPOls6osZBbKibg_48x48.png",
+    "https://ssl.gstatic.com/onebox/media/sports/logos/MoZXwoWIjt8UjTBwdPC2UA_48x48.png",
+    "https://ssl.gstatic.com/onebox/media/sports/logos/0EEo02S-4yUO68ijcC1K2w_48x48.png",
+    "https://ssl.gstatic.com/onebox/media/sports/logos/7QGSxSE4JOBdlx-V2v9VjQ_48x48.png",
+    "https://ssl.gstatic.com/onebox/media/sports/logos/iuUsB2P_iGaeWiEQGfhC9g_48x48.png",
+    "https://ssl.gstatic.com/onebox/media/sports/logos/lzSaFVMIfwU_C1bY7eW-Ag_48x48.png",
+    "https://ssl.gstatic.com/onebox/media/sports/logos/7UA53v1ZWb-0Pf1GuapMIg_48x48.png",
+    "https://ssl.gstatic.com/onebox/media/sports/logos/L2toVcP33KA1cA2IZmH4wg_48x48.png",
+    "https://ssl.gstatic.com/onebox/media/sports/logos/4YPE-XPl_BOYwEen2dUq6A_48x48.png",
+    "https://ssl.gstatic.com/onebox/media/sports/logos/hxz7taoji58jiIwg5XOu9A_48x48.png",
+    "https://ssl.gstatic.com/onebox/media/sports/logos/vNOlviX0AJSvjVQ-KYGX6A_48x48.png"
+];
+
+// GIF mapping
+const MERGE_GIF_URL = "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExeWxvd2M5ZGQ1bXY0MGg3M3dmYzd2bHhmYm5kbXQ2azV5dWpkZXExNSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q/ZFExlTTM5JZc2ncGf8/giphy.gif";
+
+let board = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];
+let gameWon = false, score = 0;
+let nextGifScore = 1000;
+
+const boardEl = document.getElementById("board");
+const winMessage = document.getElementById("winMessage");
+const scoreBar = document.getElementById("scoreBar");
+
+function getTileColor(value){
+    const colors = ["#333","#f87171","#fbbf24","#34d399","#60a5fa","#a78bfa","#f472b6",
+                    "#facc15","#22c55e","#3b82f6","#8b5cf6","#ec4899","#eab308","#10b981",
+                    "#6366f1","#f43f5e","#f59e0b"];
+    return colors[value]||"#fff";
+}
+
+function drawBoard(){
+    boardEl.innerHTML="";
+    for(let r=0;r<4;r++){
+        for(let c=0;c<4;c++){
+            let tile = document.createElement("div");
+            tile.classList.add("tile");
+            let value = board[r][c];
+            tile.style.background = getTileColor(value);
+            if(value>0){
+                let img = document.createElement("img");
+                img.src = TILE_IMAGES[value];
+                tile.appendChild(img);
+            }
+            boardEl.appendChild(tile);
+        }
+    }
+    scoreBar.textContent = `Score: ${score}`;
+}
+
+function checkWin(){
+    for(let r=0;r<4;r++){
+        for(let c=0;c<4;c++){
+            if(board[r][c]===16){
+                gameWon=true;
+                winMessage.style.display="block";
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+function noMovesLeft(){
+    for(let r=0;r<4;r++){
+        for(let c=0;c<4;c++){
+            if(board[r][c]===0) return false;
+            if(c<3 && board[r][c]===board[r][c+1]) return false;
+            if(r<3 && board[r][c]===board[r+1][c]) return false;
+        }
+    }
+    return true;
+}
+
+function spawnTile(){
+    if(gameWon) return;
+    let empty=[];
+    for(let r=0;r<4;r++)
+        for(let c=0;c<4;c++)
+            if(board[r][c]===0) empty.push([r,c]);
+    if(empty.length===0) return;
+    let [r,c] = empty[Math.floor(Math.random()*empty.length)];
+    board[r][c]=1;
+}
+
+function showMergeGif() {
+    ["leftGif","rightGif"].forEach(cls=>{
+        let gif = document.createElement("img");
+        gif.src = MERGE_GIF_URL;
+        gif.classList.add("mergeGif", cls);
+        boardEl.parentElement.appendChild(gif);
+        setTimeout(()=>gif.remove(),1500);
+    });
+}
+
+function slide(row){
+    row = row.filter(v=>v!==0);
+    for(let i=0;i<row.length-1;i++){
+        if(row[i]===row[i+1]){
+            row[i]++;
+            score += row[i]*10;
+
+            // Show merge GIF only if score passed nextGifScore
+            if(score >= nextGifScore){
+                showMergeGif();
+                nextGifScore += 1000;
+            }
+
+            row[i+1]=0;
+        }
+    }
+    row = row.filter(v=>v!==0);
+    while(row.length<4) row.push(0);
+    return row;
+}
+
+function moveLeft(){ for(let r=0;r<4;r++) board[r]=slide(board[r]); }
+function moveRight(){ for(let r=0;r<4;r++) board[r]=slide(board[r].reverse()).reverse(); }
+function moveUp(){ 
+    for(let c=0;c<4;c++){
+        let col=[];
+        for(let r=0;r<4;r++) col.push(board[r][c]);
+        col=slide(col);
+        for(let r=0;r<4;r++) board[r][c]=col[r];
+    }
+}
+function moveDown(){
+    for(let c=0;c<4;c++){
+        let col=[];
+        for(let r=0;r<4;r++) col.push(board[r][c]);
+        col=slide(col.reverse()).reverse();
+        for(let r=0;r<4;r++) board[r][c]=col[r];
+    }
+}
+
+document.addEventListener("keydown",e=>{
+    if(gameWon) return;
+    let before=JSON.stringify(board);
+    if(e.key==="ArrowLeft") moveLeft();
+    if(e.key==="ArrowRight") moveRight();
+    if(e.key==="ArrowUp") moveUp();
+    if(e.key==="ArrowDown") moveDown();
+    if(before!==JSON.stringify(board)){
+        spawnTile();
+        if(!checkWin() && noMovesLeft()) alert("Game Over!");
+        drawBoard();
+    }
+});
+
+document.getElementById("restartBtn").addEventListener("click",()=>{
+    board=[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];
+    score=0; gameWon=false; nextGifScore=1000; winMessage.style.display="none";
+    spawnTile(); spawnTile(); drawBoard();
+});
+
+spawnTile(); spawnTile(); drawBoard();
+</script>
+</body>
+</html>

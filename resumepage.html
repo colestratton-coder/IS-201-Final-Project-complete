@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Cole Stratton — Resume</title>
+  <style>
+   
+   .nav-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.nav-buttons button {
+  background: transparent;
+  border: 1px solid rgba(0,0,0,0.06);
+  padding: 8px 12px;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  color: var(--text);
+}
+
+.nav-buttons button:hover {
+  background: rgba(0,0,0,0.06);
+}
+    /* Reset & base */
+    :root{
+      --bg: #f7f8fb;
+      --card: #ffffff;
+      --muted: #6b7280;
+      --accent: #0f62fe;
+      --accent-2: #0b7dda;
+      --text: #0f1724;
+      --glass: rgba(255,255,255,0.6);
+      --shadow: 0 6px 18px rgba(15,23,36,0.08);
+      --radius: 14px;
+    }
+    [data-theme="dark"]{
+      --bg: #0b1020;
+      --card: #071026;
+      --muted: #9aa4b2;
+      --accent: #5cc3ff;
+      --accent-2: #3bb0ff;
+      --text: #e6eef9;
+      --glass: rgba(255,255,255,0.03);
+      --shadow: 0 8px 24px rgba(0,0,0,0.6);
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: linear-gradient(180deg,var(--bg), #e9eefb 200px);
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      padding:32px;
+
+      /* ENABLE SCROLLING */
+      display:flex;
+      justify-content:center;
+      align-items:flex-start;
+      height:auto;
+      overflow-y:auto;
+    }
+
+    /* container */
+    .resume-wrap{
+      width:100%;
+      max-width:900px;
+      background:var(--card);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      display:grid;
+      grid-template-columns: 320px 1fr;
+      gap: 0;
+      min-height:600px;
+    }
+
+    /* left column */
+    .left{
+      padding:28px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+      border-right: 1px solid rgba(0,0,0,0.04);
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+      align-items:flex-start;
+    }
+    .photo{
+      width:100%;
+      display:flex;
+      align-items:center;
+      justify-content:flex-start;
+      gap:14px;
+    }
+    .avatar{
+      width:68px;height:68px;border-radius:12px;
+      background:linear-gradient(135deg,var(--accent),var(--accent-2));
+      display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:20px;
+      box-shadow:0 6px 18px rgba(11,125,218,0.12);
+    }
+    .name{
+      font-size:18px;font-weight:700;
+    }
+    .sub{
+      font-size:13px;color:var(--muted);
+      margin-top:4px;
+    }
+
+    .contact, .skills, .education{
+      width:100%;
+      background:var(--glass);
+      border-radius:10px;
+      padding:12px;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,0.02);
+      backdrop-filter: blur(6px);
+    }
+
+    .contact p{margin:6px 0;font-size:14px;color:var(--muted)}
+    .contact a{color:var(--text);text-decoration:none;font-weight:600}
+    .contact .label{font-size:12px;color:var(--muted);display:block;margin-bottom:6px}
+
+    .skills ul, .education ul {margin:0;padding-left:18px}
+    .skills li{margin:6px 0;font-size:14px;color:var(--text)}
+    .education li{margin:8px 0;font-size:14px;color:var(--text)}
+
+    /* right column */
+    .right{
+      padding:28px;
+    }
+    h1{
+      margin:0;font-size:22px;
+      display:flex;align-items:center;gap:10px;
+    }
+    .title{
+      font-size:14px;color:var(--muted);margin-top:6px;
+    }
+    .section{
+      margin-top:18px;
+    }
+    .section h2{
+      margin:0;font-size:15px;color:var(--accent);letter-spacing:0.2px;
+    }
+    .job{
+      margin-top:10px;padding:12px;border-radius:10px;background:linear-gradient(180deg, rgba(0,0,0,0.01), transparent);
+      box-shadow:0 2px 8px rgba(11,125,218,0.03);
+    }
+    .job .row{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+    .job .company{font-weight:700}
+    .job .date{font-size:13px;color:var(--muted)}
+    .job p{margin:8px 0 0 0;color:var(--text);line-height:1.45}
+    .job ul{margin:8px 0 0 0;padding-left:18px;color:var(--text)}
+
+    /* actions */
+    .actions{
+      display:flex;gap:10px;margin-top:6px;
+    }
+    button.action{
+      border:0;padding:8px 12px;border-radius:10px;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white;font-weight:700;cursor:pointer;
+      box-shadow:0 8px 20px rgba(11,125,218,0.12)
+    }
+    button.ghost{
+      background:transparent;border:1px solid rgba(0,0,0,0.06);color:var(--text);font-weight:700;padding:8px 12px;border-radius:10px;cursor:pointer;
+    }
+
+    .meta{font-size:13px;color:var(--muted);margin-top:6px}
+
+    @media (max-width:880px){
+      .resume-wrap{grid-template-columns:1fr; padding-bottom:18px}
+      .left{order:2;border-right:0;border-top:1px solid rgba(0,0,0,0.04)}
+    }
+
+    @media print {
+      body{background:white;padding:0}
+      .resume-wrap{box-shadow:none;border-radius:0;max-width:100%;grid-template-columns:1fr 1fr}
+      .actions, .dark-toggle {display:none}
+      .left, .right{padding:12px}
+    }
+  </style>
+</head>
+<body>
+  <div class="resume-wrap" id="resume" role="document" aria-label="Resume for Cole Stratton">
+    <!-- LEFT -->
+    <aside class="left" aria-labelledby="contact-heading">
+      <div class="photo" role="img" aria-label="Cole S. avatar">
+        <img src="https://i.imgur.com/z4isk4P.jpeg" alt="Resume Photo" width="200">
+
+        <div>
+          <div class="name">Cole Stratton</div>
+          <div class="sub">Pre-Business Sophomore — BYU</div>
+        </div>
+      </div>
+
+      <div class="contact" id="contact-heading">
+        <div class="label">Contact</div>
+        <p>1130 E 450 N, Provo, UT 84606</p>
+        <p>+1 (818) 400-9455</p>
+        <p><a href="mailto:cwstratt@byu.edu">cwstratt@byu.edu</a> • <a href="mailto:colestratton@gmail.com">colestratton@gmail.com</a></p>
+      </div>
+
+      <div class="skills" aria-labelledby="skills-heading">
+        <div id="skills-heading" class="label">Skills & Highlights</div>
+        <ul>
+          <li>Eagle Scout</li>
+          <li>Fluent Portuguese — served 2-year mission in Brazil</li>
+          <li>Leadership & mentoring experience (BYUSA, student groups, sports)</li>
+          <li>Accounting fundamentals: Excel, journal entries, budgeting</li>
+          <li>Small-business owner: marketing, purchasing, accounting</li>
+        </ul>
+      </div>
+
+      <div class="education" aria-labelledby="education-heading">
+        <div id="education-heading" class="label">Education</div>
+        <ul>
+          <li>High School Graduate</li>
+          <li>Currently: Sophomore, Brigham Young University — Pre-Business (taking prerequisites to apply for Accounting)</li>
+        </ul>
+      </div>
+
+      <div style="width:100%;display:flex;flex-direction:column;gap:8px;">
+        <div class="meta">References</div>
+        <div style="font-size:14px;">
+          <strong>Caleb Rogers</strong> — BYU Student Body President<br>
+          <a href="tel:+18085008611">808-500-8611</a>
+        </div>
+        <div style="font-size:14px;margin-top:6px;">
+          <strong>Logan Mann</strong> — Employer<br>
+          <a href="mailto:logan_mann@byu.edu">logan_mann@byu.edu</a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- RIGHT -->
+    <main class="right">
+      <header>
+        <h1>Cole Stratton</h1>
+        <div class="title">Aspiring Accounting Student • Small-business Founder • Bilingual (English/Portuguese)</div>
+        <div class="actions" style="margin-top:12px;">
+     
+          <div class="nav-buttons">
+  <button onclick="window.location.href='index.html'">Go to a page I coded!</button>
+  <button onclick="window.location.href='game.html'">Go to Game I coded!</button>
+</div>
+        </div>
+      </header>
+
+      <section class="section" aria-labelledby="exp-heading">
+        <h2 id="exp-heading">Professional Experience</h2>
+
+        <div class="job" aria-labelledby="camp">
+          <div class="row">
+            <div>
+              <div class="company">Summer Camp Owner / Manager</div>
+              <div class="date">Summer 2022</div>
+            </div>
+            <div class="date">Home-based camp</div>
+          </div>
+          <p>I planned, prepared and ran a summer baking camp for kids (ages 8–14) out of my home for a few weeks. I managed budgets and expenses, organized the entire program independently, and gained adult stakeholders' confidence. The camp was a success and is run by my sisters in subsequent summers.</p>
+          <ul>
+            <li>Managed expenses and developed efficient budget tracking.</li>
+            <li>Planned curriculum, materials, and session logistics.</li>
+            <li>Coordinated with parents and community members.</li>
+          </ul>
+        </div>
+
+        <div class="job" aria-labelledby="acct">
+          <div class="row">
+            <div>
+              <div class="company">Accounting Assistant — BYU Student Body</div>
+              <div class="date">December 2024 – Present</div>
+            </div>
+            <div class="date">Provo, UT</div>
+          </div>
+          <p>Manage budgets, expenses, and financial reporting for the BYU Student Body and affiliated clubs and organizations. Perform journal and closing entries and communicate regularly with group leaders to maintain accurate records.</p>
+          <ul>
+            <li>Daily use of spreadsheets (Excel) for budgets and expense tracking.</li>
+            <li>Prepared reports and reconciliations for student groups.</li>
+            <li>Coordinated with multiple organization leaders to ensure compliance.</li>
+          </ul>
+        </div>
+
+        <div class="job" aria-labelledby="tieco">
+          <div class="row">
+            <div>
+              <div class="company">Founder & Owner — My Celestial Ties LLC</div>
+              <div class="date">Founded January 2025 — Launched June 2025</div>
+            </div>
+            <div class="date">Online / Small business</div>
+          </div>
+          <p>Founded and operate a tie company; responsible for end-to-end operations including marketing, purchasing, and accounting. Successfully executed product launch and initial sales.</p>
+          <ul>
+            <li>Handled all marketing and sales operations independently.</li>
+            <li>Managed purchasing, inventory tracking, and customer communication.</li>
+            <li>Achieved over $2,000 in sales since launch (June 2025).</li>
+          </ul>
+        </div>
+
+      </section>
+
+      <section class="section" aria-labelledby="skills-heading2">
+        <h2 id="skills-heading2">Additional Experience & Interests</h2>
+        <div style="margin-top:10px;">
+          <p>- Eagle Scout; strong orientation toward service and leadership.</p>
+          <p>- Served a full two-year church mission in Brazil — fluent Portuguese and cross-cultural experience.</p>
+          <p>- Trained to be a student mentor in high school and lots of leadership/service through student body groups, BYUSA, high-school sports, and church callings.</p>
+        </div>
+      </section>
+
+    
+    </main>
+  </div>
+
+  <script>
+    (function(){
+      const printBtn = document.getElementById('printBtn');
+      const darkToggle = document.getElementById('darkToggle');
+      const downloadTxt = document.getElementById('downloadTxt');
+      const root = document.documentElement;
+
+      // Print / Save as PDF
+      printBtn.addEventListener('click', () => {
+        printBtn.disabled = true;
+        printBtn.textContent = 'Preparing...';
+        setTimeout(() => {
+          window.print();
+          printBtn.disabled = false;
+          printBtn.textContent = 'Save as PDF';
+        }, 200);
+      });
+
+      // Dark mode toggle
+      function applyTheme(isDark){
+        if (isDark) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+          darkToggle.textContent = 'Light mode';
+        } else {
+          document.documentElement.removeAttribute('data-theme');
+          darkToggle.textContent = 'Toggle dark';
+        }
+      }
+      const saved = localStorage.getItem('cs-theme') === 'dark';
+      applyTheme(saved);
+
+      darkToggle.addEventListener('click', ()=>{
+        const isDark = document.documentElement.getAttribute('data-theme') !== 'dark';
+        applyTheme(isDark);
+        localStorage.setItem('cs-theme', isDark ? 'dark' : 'light');
+      });
+
+      // Download text version
+      downloadTxt.addEventListener('click', () => {
+        const text = [
+          'Cole Stratton',
+          'Pre-Business Sophomore — BYU',
+          '',
+          'Contact:',
+          '1130 E 450 N, Provo, UT 84606',
+          '+1 (818) 400-9455',
+          'cwstratt@byu.edu / colestratton@gmail.com',
+          '',
+          'Professional Experience:',
+          'Summer Camp Owner/Manager — Summer 2022',
+          '- Planned and ran a summer baking camp for kids (8–14). Managed budgets and logistics.',
+          '',
+          'Accounting Assistant — December 2024 – Present',
+          '- Manage budgets, expenses, reporting for BYU Student Body and clubs. Excel, journal entries.',
+          '',
+          'Founder & Owner, My Celestial Ties LLC — Founded Jan 2025, Launched Jun 2025',
+          '- Managed marketing, purchasing, accounting. $2,000+ sales.',
+          '',
+          'Education: High School Graduate. Currently sophomore at BYU (Pre-Business).',
+          'Skills: Eagle Scout; Fluent Portuguese; Leadership & mentoring; Accounting fundamentals.',
+          '',
+          'References: Caleb Rogers — 808-500-8611; Logan Mann — logan_mann@byu.edu'
+        ].join('\n');
+
+        const blob = new Blob([text], {type:'text/plain;charset=utf-8'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'Cole_Stratton_Resume.txt';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+      });
+
+      // shortcut
+      window.addEventListener('keydown', (e)=>{
+        if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'p') return;
+        if (e.key.toLowerCase() === 'p') printBtn.click();
+      });
+    })();
+  </script>
+</body>
+</html>

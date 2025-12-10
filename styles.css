@@ -1,0 +1,87 @@
+body {
+    background-color: #0b0b0f;
+    color: #e63946; /* red text */
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    color: #ffb703; /* gold */
+    margin-top: 20px;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px #000;
+    font-size: 3em;
+}
+
+.section {
+    max-width: 900px;
+    margin: 30px auto;
+    background: rgba(20, 20, 35, 0.9);
+    padding: 30px;
+    border-radius: 14px;
+    border: 3px solid #8ecae6; /* teal border */
+    box-shadow: 0 0 25px #023047;
+}
+
+.section h2 {
+    color: #8ecae6; /* teal */
+    margin-top: 0;
+    font-size: 1.9em;
+}
+
+ul {
+    list-style-type: " ";
+    padding-left: 20px;
+}
+
+ul li {
+    margin-bottom: 12px;
+    color: #48cae4; /* bright cyan */
+    border-bottom: 1px dashed #023047;
+    padding-bottom: 6px;
+}
+
+p {
+    color: #ffd166; /* soft yellow */
+    line-height: 1.6em;
+}
+
+a {
+    color: #ffb703;
+}
+
+a:hover {
+    color: #fb8500; /* orange */
+}
+
+.lock-pattern {
+    background-image: radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+/* Buttons Section */
+.top-buttons {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.top-buttons a {
+    display: inline-block;
+    margin: 10px;
+    padding: 14px 24px;
+    background-color: #ffb703;
+    color: #000;
+    text-decoration: none;
+    border-radius: 10px;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.top-buttons a:hover {
+    background-color: #fb8500;
+}
